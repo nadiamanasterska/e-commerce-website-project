@@ -27,11 +27,20 @@ export const Columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "fullname",
+    accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Fullname" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("fullname")}</div>,
+    cell: ({ row }) => <div className="w-[130px]">{row.getValue("name")}</div>,
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "surname",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Surname" />
+    ),
+    cell: ({ row }) => <div className="w-[130px]">{row.getValue("surname")}</div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -43,7 +52,7 @@ export const Columns = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[400px] truncate font-medium">
             {row.getValue("email")}
           </span>
         </div>
@@ -51,21 +60,21 @@ export const Columns = [
     },
   },
   {
-    accessorKey: "phoneNumber",
+    accessorKey: "phone_number",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Phone number" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex w-[100px] items-center">
-          {row.getValue("phoneNumber")}
+          {row.getValue("phone_number")}
         </div>
       );
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
-  },  
+  }, 
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,

@@ -1,11 +1,33 @@
 import { MainNav } from "@/components/MainNav";
-
-import { DataTable } from "./components/DataTable";
-import { Columns } from "./components/Columns";
 import { UserNav } from "./components/UserNav";
 import { navigationLinks } from "../../config/navigationLinks";
+import { useState, useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { deleteCustomer, fetchCustomers } from "@/services/customers";
+import { AddCustomerPage } from "./AddCustomersPage/AddCustomerPage";
+import CustomersList from "./CustomersList";
 
 export const CustomersPage = () => {
+
+  const [customers, setCustomers] = useState([])
+
+  const onCustomerDeleteHandler = async (id) => {
+    await deleteCustomer(id);
+    fetchCustomers().then(setCustomers);
+
+    toast({
+      title: "Customer deleted.",
+      description: "We've deleted a customer for you.",
+      status: "success",
+      duration: 3000,
+      position: "top-right",
+    });
+  };
+
+  useEffect(() => {
+    fetchCustomers().then(setCustomers);
+  }, []);
+
   return (
     <div className="hidden flex-col md:flex">
       <div className="border-b">
@@ -21,16 +43,9 @@ export const CustomersPage = () => {
           <h2 className="text-3xl font-bold tracking-tight">Customers</h2>
         </div>
         <div className="hidden h-full flex-1 flex-col space-y-8 md:flex">
-          <DataTable
-            data={[
-              {
-                id: 1,
-                fullname: "Test",
-                email: "test@example.com",
-                phoneNumber: "000-000-000",
-              },
-            ]}
-            columns={Columns}
+          <CustomersList 
+            customers={customers}
+            onCustomerDeleteHandler={onCustomerDeleteHandler}
           />
         </div>
       </div>
